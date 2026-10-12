@@ -1,0 +1,40 @@
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
+# Cloud / Render ke liye Headless Chrome Setup
+options = webdriver.ChromeOptions()
+options.add_argument("--headless")  # Cloud par screen nahi hoti, isliye background mein chalega
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--disable-gpu")
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
+# Discord open karein
+driver.get("https://discord.com/app")
+
+print("Discord khulne ka wait kar rahe hain...")
+time.sleep(10)  
+
+# Message bhejne ka function
+def send_message(text):
+    try:
+        # Message input box find karna
+        message_box = driver.find_element(By.XPATH, '//div[@role="textbox"]')
+        message_box.send_keys(text)
+        message_box.send_keys(Keys.ENTER)
+        print("Message bhej diya gaya!")
+    except Exception as e:
+        print("Error aaya:", e)
+
+# Aapka trading psychology wala paragraph
+my_paragraph = "Trading psychology is the blend of emotions, mental states, and behavioral biases that steer how a person makes decisions in financial markets."
+
+# Loop jo har 30 second baad paragraph bhejega
+while True:
+    send_message(my_paragraph)
+    time.sleep(30)
