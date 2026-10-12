@@ -19,13 +19,18 @@ def send_messages():
     
     while True:
         url = f"https://discord.com/api/v9/channels/{CHANNEL_ID}/messages"
+        
+        # Yahan humne real browser ka User-Agent add kiya hai taaki block na ho
         headers = {
             "Authorization": TOKEN,
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         }
+        
         payload = {
             "content": my_paragraph
         }
+        
         try:
             print(">>> Sending message request to Discord API...")
             response = requests.post(url, json=payload, headers=headers)
