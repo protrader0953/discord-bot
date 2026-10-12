@@ -1,40 +1,38 @@
 import time
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+import requests
 
-# Cloud / Render ke liye Headless Chrome Setup
-options = webdriver.ChromeOptions()
-options.add_argument("--headless")  # Cloud par screen nahi hoti, isliye background mein chalega
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--disable-gpu")
+# 1. Apna Discord User Token yahan dalein
+TOKEN = "MTUzNzQwOTI1MjcwNzAxMjcwMA.GsNw7I.ipvjQmTcx0e5KYk8gEobAVic-VJhG7f100nIzY"
 
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-
-# Discord open karein
-driver.get("https://discord.com/app")
-
-print("Discord khulne ka wait kar rahe hain...")
-time.sleep(10)  
-
-# Message bhejne ka function
-def send_message(text):
-    try:
-        # Message input box find karna
-        message_box = driver.find_element(By.XPATH, '//div[@role="textbox"]')
-        message_box.send_keys(text)
-        message_box.send_keys(Keys.ENTER)
-        print("Message bhej diya gaya!")
-    except Exception as e:
-        print("Error aaya:", e)
+# 2. Us channel ki ID jahan message bhejna hai (screenshot ke mutabiq ye URL mein hoti hai)
+# Jaise URL hai: .../channels/1078005350797672539/1410924658840178738 toh aakhri number channel ID hai:
+CHANNEL_ID = "1410924658840178738"
 
 # Aapka trading psychology wala paragraph
 my_paragraph = "Trading psychology is the blend of emotions, mental states, and behavioral biases that steer how a person makes decisions in financial markets."
 
-# Loop jo har 30 second baad paragraph bhejega
+def send_message():
+    url = f"https://discord.com/api/v9/channels/{CHANNEL_ID}/messages"
+    
+    headers = {
+        "Authorization": TOKEN,
+        "Content-Type": "application/json"
+    }
+    
+    payload = {
+        "content": my_paragraph
+    }
+    
+    try:
+        response = requests.post(url, json=payload, headers=headers)
+        if response.status_code == 200:
+            print("Message successfully bhej diya gaya!")
+        else:
+            print(f"Error aaya: {response.status_code} - {response.text}")
+    except Exception as e:
+        print("Exception:", e)
+
+# Loop jo har 30 second baad message bhejega
 while True:
-    send_message(my_paragraph)
+    send_message()
     time.sleep(30)
