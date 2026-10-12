@@ -34,11 +34,13 @@ def send_messages():
         except Exception as e:
             print("Exception:", e)
         
-        time.sleep(30)
+        # Har 5 minute (300 seconds) baad message bhejega
+        time.sleep(300)
 
 if __name__ == "__main__":
     t = threading.Thread(target=send_messages)
     t.daemon = True
     t.start()
     
-    run_server()
+    run_server()   
+    
