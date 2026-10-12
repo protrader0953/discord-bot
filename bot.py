@@ -15,7 +15,7 @@ def home():
 
 def send_messages():
     print("Background worker thread started successfully!")
-    time.sleep(3)
+    time.sleep(2)
     
     while True:
         url = f"https://discord.com/api/v9/channels/{CHANNEL_ID}/messages"
@@ -27,14 +27,14 @@ def send_messages():
             "content": my_paragraph
         }
         try:
-            print("Attempting to send message to Discord...")
+            print(">>> Sending message request to Discord API...")
             response = requests.post(url, json=payload, headers=headers)
-            print(f"STATUS CODE -> {response.status_code}")
-            print(f"RESPONSE TEXT -> {response.text}")
+            print(f">>> STATUS CODE: {response.status_code}")
+            print(f">>> RESPONSE TEXT: {response.text}")
         except Exception as e:
-            print("Exception error:", e)
+            print(">>> Exception error:", e)
         
-        print("Waiting for 5 minutes...")
+        print(">>> Waiting for 5 minutes before next message...")
         time.sleep(300)
 
 def start_background_task():
