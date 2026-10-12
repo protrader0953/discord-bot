@@ -13,12 +13,15 @@ def run_server():
     server = HTTPServer(('0.0.0.0', 10000), SimpleHandler)
     server.serve_forever()
 
-# Apna Discord Token aur Channel ID yahan dalein
+# Yahan apna asli Discord User Token aur Channel ID daalein
 TOKEN = "MTUzNzQwOTI1MjcwNzAxMjcwMA.GsNw7I.ipvjQmTcx0e5KYk8gEobAVic-VJhG7f100nIzY"
 CHANNEL_ID = "1410924658840178738"
 my_paragraph = "Trading psychology is the blend of emotions, mental states, and behavioral biases that steer how a person makes decisions in financial markets."
 
 def send_messages():
+    # Jaise hi bot shuru hoga, pehla message turant bhejega
+    print("Bot started, sending first message...")
+    
     while True:
         url = f"https://discord.com/api/v9/channels/{CHANNEL_ID}/messages"
         headers = {
@@ -31,10 +34,12 @@ def send_messages():
         try:
             response = requests.post(url, json=payload, headers=headers)
             print(f"Status Code: {response.status_code}")
+            print(f"Response Text: {response.text}")
         except Exception as e:
-            print("Exception:", e)
+            print("Exception error:", e)
         
-        # Har 5 minute (300 seconds) baad message bhejega
+        # Agla message 5 minute (300 seconds) baad bhejega
+        print("Waiting for 5 minutes...")
         time.sleep(300)
 
 if __name__ == "__main__":
@@ -42,5 +47,4 @@ if __name__ == "__main__":
     t.daemon = True
     t.start()
     
-    run_server()   
-    
+    run_server()
