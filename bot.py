@@ -15,8 +15,8 @@ def home():
     return "Discord Bot is running 24/7!"
 
 def send_messages():
-    print("Background worker started!")
-    time.sleep(5)  # Thoda wait karega taaki server fully start ho jaye
+    print("Background worker thread started successfully!")
+    time.sleep(3)  # Thoda wait karein
     
     while True:
         url = f"https://discord.com/api/v9/channels/{CHANNEL_ID}/messages"
@@ -28,10 +28,10 @@ def send_messages():
             "content": my_paragraph
         }
         try:
-            print("Sending message to Discord...")
+            print("Attempting to send message to Discord...")
             response = requests.post(url, json=payload, headers=headers)
             print(f"Status Code: {response.status_code}")
-            print(f"Response: {response.text}")
+            print(f"Response Text: {response.text}")
         except Exception as e:
             print("Exception error:", e)
         
@@ -39,10 +39,12 @@ def send_messages():
         print("Waiting for 5 minutes...")
         time.sleep(300)
 
-if __name__ == "__main__":
-    # Background thread mein message sender start karenge
+# App start hote hi background thread shuru ho jayega
+def start_background_task():
     t = threading.Thread(target=send_messages, daemon=True)
     t.start()
-    
-    # Render ke liye Flask web server port 10000 par chalayenge
+
+start_background_task()
+
+if __name__ == "__main__":
     app.run(host='0.0.0.0', port=10000)
