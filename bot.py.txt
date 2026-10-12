@@ -1,11 +1,10 @@
 import time
 import requests
 
-# 1. Apna Discord User Token yahan dalein
+# Apna Discord User Token yahan dalein
 TOKEN = "MTUzNzQwOTI1MjcwNzAxMjcwMA.GsNw7I.ipvjQmTcx0e5KYk8gEobAVic-VJhG7f100nIzY"
 
-# 2. Us channel ki ID jahan message bhejna hai (screenshot ke mutabiq ye URL mein hoti hai)
-# Jaise URL hai: .../channels/1078005350797672539/1410924658840178738 toh aakhri number channel ID hai:
+# Channel ID
 CHANNEL_ID = "1410924658840178738"
 
 # Aapka trading psychology wala paragraph
